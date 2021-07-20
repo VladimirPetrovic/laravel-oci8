@@ -78,7 +78,6 @@ class OracleConnector extends Connector implements ConnectorInterface
         $config = $this->setPort($config);
         $config = $this->setProtocol($config);
         $config = $this->setServiceId($config);
-        $config = $this->setTimeout($config);
         $config = $this->setTNS($config);
         $config = $this->setCharset($config);
 
@@ -147,7 +146,7 @@ class OracleConnector extends Connector implements ConnectorInterface
      */
     protected function setTNS(array $config)
     {
-        $config['tns'] = "(DESCRIPTION = (TRANSPORT_CONNECT_TIMEOUT={$config['timeout']}) (ADDRESS = (PROTOCOL = {$config['protocol']})(HOST = {$config['host']})(PORT = {$config['port']})) (CONNECT_DATA =({$config['service']})))";
+        $config['tns'] = "(DESCRIPTION = (CONNECT_TIMEOUT={$config['timeout']}) (TRANSPORT_CONNECT_TIMEOUT={$config['timeout']}) (ADDRESS = (PROTOCOL = {$config['protocol']})(HOST = {$config['host']})(PORT = {$config['port']})) (CONNECT_DATA =({$config['service']})))";
 
         return $config;
     }
@@ -163,19 +162,6 @@ class OracleConnector extends Connector implements ConnectorInterface
         if (! isset($config['charset'])) {
             $config['charset'] = 'AL32UTF8';
         }
-
-        return $config;
-    }
-
-    /**
-     * Set timeout from config.
-     *
-     * @param array $config
-     * @return array
-     */
-    private function setTimeout(array $config)
-    {
-        $config['timeout'] = isset($config['timeout']) ? $config['timeout'] : '60';
 
         return $config;
     }
