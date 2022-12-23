@@ -10,19 +10,20 @@
         }
     ],
     "require": {
-        "php": "^7.3|^8.0",
-        "ext-oci8": ">=2.0.0",
+        "php": "^8.0.2",
+        "ext-oci8": ">=3.0.1",
         "ext-pdo": "*",
-        "illuminate/database": "^8",
-        "illuminate/pagination": "^8",
-        "illuminate/support": "^8",
-        "illuminate/validation": "^8",
-        "yajra/laravel-pdo-via-oci8": "^2.0|^3.0"
+        "illuminate/database": "^9",
+        "illuminate/pagination": "^9",
+        "illuminate/support": "^9",
+        "illuminate/validation": "^9",
+        "yajra/laravel-pdo-via-oci8": "^3.0"
     },
     "require-dev": {
-        "orchestra/testbench": "^6.5",
-        "mockery/mockery": "^1.4.2",
-        "phpunit/phpunit": "^8.4|^9.0"
+        "doctrine/dbal": "^3.3",
+        "mockery/mockery": "^1.4.4",
+        "orchestra/testbench": "^7.0",
+        "phpunit/phpunit": "^9.5.8"
     },
     "autoload": {
         "files": [
@@ -39,7 +40,7 @@
     },
     "extra": {
         "branch-alias": {
-          "dev-master": "8.x-dev"
+          "dev-master": "9.x-dev"
         },
         "laravel": {
             "providers": [
@@ -49,7 +50,7 @@
         }
     },
     "scripts": {
-        "docker": "docker run -d -p 49160:22 -p 49161:1521 deepdiver/docker-oracle-xe-11g"
+        "docker": "docker run -d -p 49160:22 -p 1521:1521 deepdiver/docker-oracle-xe-11g"
     },
     "config": {
         "sort-packages": true

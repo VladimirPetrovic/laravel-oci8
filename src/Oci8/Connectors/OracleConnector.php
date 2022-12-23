@@ -16,9 +16,10 @@ class OracleConnector extends Connector implements ConnectorInterface
      * @var array
      */
     protected $options = [
-        PDO::ATTR_CASE         => PDO::CASE_LOWER,
-        PDO::ATTR_ERRMODE      => PDO::ERRMODE_EXCEPTION,
-        PDO::ATTR_ORACLE_NULLS => PDO::NULL_NATURAL,
+        PDO::ATTR_CASE               => PDO::CASE_LOWER,
+        PDO::ATTR_ERRMODE            => PDO::ERRMODE_EXCEPTION,
+        PDO::ATTR_ORACLE_NULLS       => PDO::NULL_NATURAL,
+        PDO::ATTR_DEFAULT_FETCH_MODE => PDO::FETCH_OBJ,
     ];
 
     /**
@@ -146,7 +147,7 @@ class OracleConnector extends Connector implements ConnectorInterface
      */
     protected function setTNS(array $config)
     {
-        $config['tns'] = "(DESCRIPTION = (ADDRESS = (PROTOCOL = {$config['protocol']})(HOST = {$config['host']})(PORT = {$config['port']})) (CONNECT_DATA =({$config['service']})))";
+        $config['tns'] = "(DESCRIPTION = (CONNECT_TIMEOUT={$config['timeout']}) (TRANSPORT_CONNECT_TIMEOUT={$config['timeout']}) (ADDRESS = (PROTOCOL = {$config['protocol']})(HOST = {$config['host']})(PORT = {$config['port']})) (CONNECT_DATA =({$config['service']})))";
 
         return $config;
     }
