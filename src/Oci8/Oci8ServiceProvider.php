@@ -23,7 +23,7 @@ class Oci8ServiceProvider extends ServiceProvider
     public function boot()
     {
         $this->publishes([
-            __DIR__ . '/../config/oracle.php' => config_path('oracle.php'),
+            __DIR__.'/../config/oracle.php' => config_path('oracle.php'),
         ], 'oracle');
 
         Auth::provider('oracle', function ($app, array $config) {
@@ -41,10 +41,14 @@ class Oci8ServiceProvider extends ServiceProvider
         if (file_exists(config_path('oracle.php'))) {
             $this->mergeConfigFrom(config_path('oracle.php'), 'database.connections');
         } else {
-            $this->mergeConfigFrom(__DIR__ . '/../config/oracle.php', 'database.connections');
+            $this->mergeConfigFrom(__DIR__.'/../config/oracle.php', 'database.connections');
         }
 
         Connection::resolverFor('oracle', function ($connection, $database, $prefix, $config) {
+            if (isset($config['dynamic']) && ! empty($config['dynamic'])) {
+                call_user_func_array($config['dynamic'], [&$config]);
+            }
+
             $connector = new Connector();
             $connection = $connector->connect($config);
             $db = new Oci8Connection($connection, $database, $prefix, $config);
@@ -54,13 +58,14 @@ class Oci8ServiceProvider extends ServiceProvider
             }
 
             // set oracle session variables
-            $sessionVars = [
+            $defaultSessionVars = [
                 'NLS_TIME_FORMAT'         => 'HH24:MI:SS',
                 'NLS_DATE_FORMAT'         => 'YYYY-MM-DD HH24:MI:SS',
                 'NLS_TIMESTAMP_FORMAT'    => 'YYYY-MM-DD HH24:MI:SS',
                 'NLS_TIMESTAMP_TZ_FORMAT' => 'YYYY-MM-DD HH24:MI:SS TZH:TZM',
                 'NLS_NUMERIC_CHARACTERS'  => '.,',
             ];
+            $sessionVars = config('database.connections.sessionVars', $defaultSessionVars);
 
             // Like Postgres, Oracle allows the concept of "schema"
             if (isset($config['schema'])) {
