@@ -1,4 +1,4 @@
-# Oracle DB driver for Laravel 4|5|6|7|8|9 via OCI8
+# Oracle DB driver for Laravel 4|5|6|7|8|9|10 via OCI8
 
 [![Build Status](https://github.com/yajra/laravel-oci8/workflows/tests/badge.svg)](https://github.com/yajra/laravel-oci8/actions)
 [![Total Downloads](https://poser.pugx.org/yajra/laravel-oci8/d/total.svg)](https://packagist.org/packages/yajra/laravel-oci8)
@@ -30,11 +30,12 @@ Laravel-OCI8 is an Oracle Database Driver package for [Laravel](http://laravel.c
  7.x.x    | 7.x.x
  8.x.x    | 8.x.x
  9.x.x    | 9.x.x
+ 10.x.x   | 10.x.x
 
 ## Quick Installation
 
 ```bash
-composer require yajra/laravel-oci8:^9
+composer require yajra/laravel-oci8:^10
 ```
 
 ## Service Provider (Optional on Laravel 5.5+)
@@ -151,6 +152,12 @@ class Config {
 ```
 
 Then run your laravel installation...
+
+## Oracle Max Name Length
+
+By default, DB object name are limited to 30 characters. To increase the limit, you can set the `ORA_MAX_NAME_LEN=128` in your `.env` file.
+
+Note: this config requires **Oracle 12c02 or higher**.
 
 ## [Laravel 5.2++] Oracle User Provider
 
